@@ -111,10 +111,8 @@ export async function getDriverDetail(req: any, res: any, next: any) {
             no: item.no,
             name: item.name,
             laps: item.laps,
-            team: {
-              id: item.team.id,
-              name: item.team.name
-            },
+            teamId: item.teamId,
+            teamName: item.teamName,
             race: {
               id: race._id,
               nationality: race.nationality

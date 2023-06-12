@@ -53,16 +53,14 @@ export const raceSchema = new mongoose.Schema({
         type: String,
         required: [true, 'The field laps driver must be required.']
       },
-      team: {
-        id: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'team',
-          required: [true, 'The field id team must be required.']
-        },
-        name: {
-          type: String,
-          required: [true, 'The field name team must be required.']
-        }
+      teamId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'team',
+        required: [true, 'The field id team must be required.']
+      },
+      teamName: {
+        type: String,
+        required: [true, 'The field name team must be required.']
       },
       time: {
         type: String,

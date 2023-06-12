@@ -97,26 +97,34 @@ export async function getTeamDetail(req: any, res: any, next: any) {
     if (!teamExist) throw createHttpError.NotFound('Race does not exist.')
     // Find race
     const racesExist: IRace[] = await Race.find({
-      'drivers.team': { $elemMatch: { id: req.params.id } },
-
+      drivers: { $elemMatch: { teamId: req.params.id } },
       year: req.params.year
     })
-    console.log('🚀 ~ file: team.controller.ts:105 ~ getTeamDetail ~ racesExist:', racesExist)
     // Declare races
     const races: ITeamDetail[] = []
     // Find team inside race list
     for (const race of racesExist) {
       race.drivers.map((item: IDriverDetail, index: number) => {
-        if (item.team.id.toString() === req.params)
-          races.unshift({
-            id: item.team.id.toString(),
-            race: {
-              id: race._id,
-              nationality: race.nationality
-            },
-            date: race.date,
-            points: item.points
-          })
+        if (item.teamId.toString() === req.params.id) {
+          // Find race exist
+          const raceExist: ITeamDetail[] = races.filter((item: any) => (item.id = req.params.id))
+          // Check race exist
+          if (raceExist.length === 0)
+            races.unshift({
+              id: item.teamId.toString(),
+              race: {
+                id: race._id,
+                nationality: race.nationality
+              },
+              date: race.date,
+              points: item.points
+            })
+          else
+            races.map((itemExist: ITeamDetail, index: number) => {
+              // Total points
+              if (itemExist.id === req.params.id) itemExist.points += item.points
+            })
+        }
       })
     }
     // Return response

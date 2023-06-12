@@ -16,7 +16,8 @@ export interface IDriverDetail {
   name: string
   no: number
   laps: string
-  team: any
+  teamId: string
+  teamName: string
   race: any
   time: string
   points: number

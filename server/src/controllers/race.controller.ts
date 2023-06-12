@@ -102,10 +102,8 @@ export async function addDriver(req: any, res: any, next: any) {
     raceExist.drivers.unshift({
       ...result,
       name: driverExist.name,
-      team: {
-        id: teamExist._id,
-        name: teamExist.name
-      }
+      teamId: teamExist._id.toString(),
+      teamName: teamExist.name
     })
     raceExist.drivers.sort((a: any, b: any) => b.points - a.points)
     // Update race
