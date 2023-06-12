@@ -5,7 +5,7 @@ class APIFeature {
     this.query = query
     this.queryStr = queryStr
   }
-
+  // Search: ?keyword=...
   search() {
     const keyword = this.queryStr.keyword
       ? {
@@ -18,7 +18,7 @@ class APIFeature {
     this.query = this.query.find({ ...keyword })
     return this
   }
-
+  // Filter: &&year=2022&&...
   filter() {
     const queryCopy = { ...this.queryStr }
     const removeFields = ['keyword', 'limit', 'page', 'sortBy', 'orderBy']
@@ -30,7 +30,7 @@ class APIFeature {
     this.query = this.query.find(JSON.parse(queryStr))
     return this
   }
-
+  // Sort: &&sortBy=points&&orderBy=desc&&
   sorting() {
     const sort = []
     if (this.queryStr.sortBy && this.queryStr.orderBy) {
@@ -39,7 +39,7 @@ class APIFeature {
     this.query = this.query.sort(sort)
     return this
   }
-
+  // Pagination: &&limit=10&&page=1&&
   pagination() {
     const { limit, page } = this.queryStr
     const currentPage = Number(page) || 1

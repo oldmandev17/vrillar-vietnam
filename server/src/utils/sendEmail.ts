@@ -1,9 +1,10 @@
 import bcrypt from 'bcrypt'
 import nodemailer from 'nodemailer'
-import UserVerification from 'src/models/userVerification.model'
 import PasswordReset from 'src/models/passwordReset.model'
+import UserVerification from 'src/models/userVerification.model'
 import { v4 } from 'uuid'
 
+// Create email service
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -13,7 +14,7 @@ const transporter = nodemailer.createTransport({
     pass: 'bxkfwivzxpvvibgo'
   }
 })
-
+// Send email verification email register
 export const sendVerificationEmail = async (_id: string, email: string, res: any, next: any) => {
   try {
     const currentUrl = 'http://127.0.0.1:5000/'
@@ -46,7 +47,7 @@ export const sendVerificationEmail = async (_id: string, email: string, res: any
     next(error)
   }
 }
-
+// Send email reset password
 export const sendResetEmail = async (_id: string, email: string, redirectUrl: string, res: any, next: any) => {
   try {
     const resetString = v4() + _id

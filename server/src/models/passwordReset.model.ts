@@ -1,12 +1,12 @@
 import mongoose from 'mongoose'
-
+// Interface password reset type
 export interface IPasswordReset extends mongoose.Document {
   userId: string
   resetString: string
   createdAt: Date
   expiresAt: Date
 }
-
+// Model password reset validation
 export const passwordResetSchema = new mongoose.Schema({
   userId: {
     type: String,
@@ -25,7 +25,6 @@ export const passwordResetSchema = new mongoose.Schema({
     required: [true, 'The field expires at must be required.']
   }
 })
-
+// Return reset password model
 const ResetPassword = mongoose.model<IPasswordReset>('passwordReset', passwordResetSchema)
-
 export default ResetPassword

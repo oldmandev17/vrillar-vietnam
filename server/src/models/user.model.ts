@@ -1,17 +1,18 @@
-import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
+import mongoose from 'mongoose'
 
+// Interface user type
 export interface IUser extends mongoose.Document {
   name: string
   email: string
   password: string
   verified: boolean
-  role: [string]
+  role: string
   createdAt: Date
   updatedAt?: Date
   isValidPassword: any
 }
-
+// Model user validation
 export const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -32,7 +33,7 @@ export const userSchema = new mongoose.Schema({
     required: [true, 'The field verified must be required.']
   },
   role: {
-    type: [String],
+    type: String,
     required: [true, 'The field role must be required.'],
     default: 'user',
     enum: {
@@ -48,7 +49,7 @@ export const userSchema = new mongoose.Schema({
     type: Date
   }
 })
-
+// Bcrypt password before save
 userSchema.pre('save', async function (next: any) {
   try {
     const salt = await bcrypt.genSalt(10)
@@ -58,7 +59,7 @@ userSchema.pre('save', async function (next: any) {
     next(error)
   }
 })
-
+// Method check password
 userSchema.methods.isValidPassword = async function (password: string, next: any) {
   try {
     return await bcrypt.compare(password, this.password)
@@ -66,7 +67,6 @@ userSchema.methods.isValidPassword = async function (password: string, next: any
     next(error)
   }
 }
-
+// Return user model
 const User = mongoose.model<IUser>('user', userSchema)
-
 export default User

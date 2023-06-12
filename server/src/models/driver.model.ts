@@ -1,15 +1,16 @@
 import mongoose from 'mongoose'
-
+// Interface driver type
 export interface IDriver extends mongoose.Document {
   name: string
   nationality: string
   points?: number
   team: string
+  year: string
   createByUser: string
   createdAt: Date
   updatedAt?: Date
 }
-
+// Model driver validation
 export const driverSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -28,6 +29,10 @@ export const driverSchema = new mongoose.Schema({
     ref: 'team',
     required: [true, 'The field team must be required.']
   },
+  year: {
+    type: String,
+    required: [true, 'The field year must be required.']
+  },
   createByUser: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
@@ -41,7 +46,6 @@ export const driverSchema = new mongoose.Schema({
     type: Date
   }
 })
-
+// Return driver model
 const Driver = mongoose.model<IDriver>('driver', driverSchema)
-
 export default Driver

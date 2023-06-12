@@ -1,23 +1,34 @@
 import mongoose from 'mongoose'
-
+// Interface race typr
 export interface IRace extends mongoose.Document {
   name: string
+  nationality: string
   date: string
+  description: string
   laps: number
   drivers?: any
+  year: string
   createByUser: string
   createdAt: Date
   updatedAt?: Date
 }
-
+// Model race validation
 export const raceSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'The field name must be required.']
   },
+  nationality: {
+    type: String,
+    required: [true, 'The field nationality must be required.']
+  },
   date: {
-    type: Date,
+    type: String,
     required: [true, 'The field date must be required.']
+  },
+  description: {
+    type: String,
+    required: [true, 'The field description must be required.']
   },
   laps: {
     type: Number,
@@ -30,6 +41,10 @@ export const raceSchema = new mongoose.Schema({
         ref: 'driver',
         required: [true, 'The field id driver must be required.']
       },
+      name: {
+        type: String,
+        required: [true, 'The field name driver must be required.']
+      },
       no: {
         type: Number,
         required: [true, 'The field no driver must be required.']
@@ -37,6 +52,17 @@ export const raceSchema = new mongoose.Schema({
       laps: {
         type: String,
         required: [true, 'The field laps driver must be required.']
+      },
+      team: {
+        id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'team',
+          required: [true, 'The field id team must be required.']
+        },
+        name: {
+          type: String,
+          required: [true, 'The field name team must be required.']
+        }
       },
       time: {
         type: String,
@@ -48,6 +74,10 @@ export const raceSchema = new mongoose.Schema({
       }
     }
   ],
+  year: {
+    type: String,
+    required: [true, 'The field year must be required.']
+  },
   createByUser: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
@@ -61,7 +91,6 @@ export const raceSchema = new mongoose.Schema({
     type: Date
   }
 })
-
+// Return race model
 const Race = mongoose.model<IRace>('race', raceSchema)
-
 export default Race

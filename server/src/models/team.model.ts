@@ -1,13 +1,14 @@
 import mongoose from 'mongoose'
-
+// Interface team type
 export interface ITeam extends mongoose.Document {
   name: string
   points?: number
+  year: string
   createByUser: string
   createdAt: Date
   updatedAt: Date
 }
-
+// Model team validation
 export const teamSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -16,6 +17,10 @@ export const teamSchema = new mongoose.Schema({
   points: {
     type: Number,
     default: 0
+  },
+  year: {
+    type: String,
+    required: [true, 'The field year must be required.']
   },
   createByUser: {
     type: mongoose.Schema.Types.ObjectId,
@@ -30,7 +35,6 @@ export const teamSchema = new mongoose.Schema({
     type: Date
   }
 })
-
+// Return team model
 const Team = mongoose.model<ITeam>('team', teamSchema)
-
 export default Team
