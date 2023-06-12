@@ -10,6 +10,18 @@ export interface IDriver extends mongoose.Document {
   createdAt: Date
   updatedAt?: Date
 }
+// Interface driver detail type
+export interface IDriverDetail {
+  id: string
+  name: string
+  no: number
+  laps: string
+  team: any
+  race: any
+  time: string
+  points: number
+  position: number
+}
 // Model driver validation
 export const driverSchema = new mongoose.Schema({
   name: {

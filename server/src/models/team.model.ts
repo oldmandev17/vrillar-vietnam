@@ -8,6 +8,13 @@ export interface ITeam extends mongoose.Document {
   createdAt: Date
   updatedAt: Date
 }
+// Interface team detail type
+export interface ITeamDetail {
+  id: string
+  race: any
+  date: string
+  points: number
+}
 // Model team validation
 export const teamSchema = new mongoose.Schema({
   name: {

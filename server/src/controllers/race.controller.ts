@@ -142,7 +142,7 @@ export async function getRaceList(req: any, res: any, next: any) {
 export async function getRaceDetail(req: any, res: any, next: any) {
   try {
     // Find race exist
-    const raceExist: IRace | null = await Race.findById(req.params.id)
+    const raceExist: IRace | null = await Race.findOne({ _id: req.params.id, year: req.params.year })
     // Check race exist
     if (!raceExist) throw createHttpError.NotFound('Race does not exist.')
     // Return response

@@ -1,5 +1,11 @@
 import { Router } from 'express'
-import { createDriver, deleteDriver, updateDriver } from 'src/controllers/driver.controller'
+import {
+  createDriver,
+  deleteDriver,
+  getDriverDetail,
+  getDriverList,
+  updateDriver
+} from 'src/controllers/driver.controller'
 import { authorizeRoles, verifyAccessToken } from 'src/middlewares/jwtHelper'
 
 const driverRouter = Router()
@@ -9,5 +15,9 @@ driverRouter.route('/create').post(verifyAccessToken, authorizeRoles('admin'), c
 driverRouter.route('/update/:id').post(verifyAccessToken, authorizeRoles('admin'), updateDriver)
 // Delete driver with user role equal admin: .../driver/delete/:id with input req.params include id
 driverRouter.route('/delete/:id').delete(verifyAccessToken, authorizeRoles('admin'), deleteDriver)
+// Get driver list: .../driver/list
+driverRouter.route('/list').get(getDriverList)
+// Get driver detail: .../driver/detail/:id with input req.params include id and year
+driverRouter.route('/detail/:year/:id').get(getDriverDetail)
 // Return driver router
 export default driverRouter
