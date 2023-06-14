@@ -12,7 +12,7 @@ export interface IDriver extends mongoose.Document {
 }
 // Interface driver detail type
 export interface IDriverDetail {
-  id: string
+  _id: string
   name: string
   no: number
   laps: string

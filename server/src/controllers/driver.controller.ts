@@ -96,7 +96,7 @@ export async function getDriverDetail(req: any, res: any, next: any) {
     if (!driverExist) throw createHttpError.NotFound('Race does not exist.')
     // Find race
     const racesExist: IRace[] = await Race.find({
-      drivers: { $elemMatch: { id: req.params.id } },
+      drivers: { $elemMatch: { _id: req.params.id } },
       year: req.params.year
     })
     // Declare races
@@ -104,9 +104,9 @@ export async function getDriverDetail(req: any, res: any, next: any) {
     // Find driver inside race list
     for (const race of racesExist) {
       race.drivers.map((item: IDriverDetail, index: number) => {
-        if (item.id.toString() === req.params.id)
+        if (item._id.toString() === req.params.id)
           races.unshift({
-            id: item.id.toString(),
+            _id: item._id.toString(),
             position: index + 1,
             no: item.no,
             name: item.name,
