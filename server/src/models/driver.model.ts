@@ -23,6 +23,16 @@ export interface IDriverDetail {
   points: number
   position: number
 }
+// Interface driver list type
+export interface IDriverList {
+  _id: string
+  name: string
+  nationality: string
+  points?: number
+  teamId: string
+  teamName: string
+  year: string
+}
 // Model driver validation
 export const driverSchema = new mongoose.Schema({
   name: {
