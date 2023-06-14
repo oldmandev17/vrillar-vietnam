@@ -1,6 +1,7 @@
 import createHttpError from 'http-errors'
-import Driver, { IDriver, IDriverDetail } from 'src/models/driver.model'
+import Driver, { IDriver, IDriverDetail, IDriverList } from 'src/models/driver.model'
 import Race, { IRace } from 'src/models/race.model'
+import Team, { ITeam } from 'src/models/team.model'
 import APIFeature from 'src/utils/apiFeatures'
 import { driverSchema } from 'src/utils/validationSchema'
 
@@ -71,16 +72,32 @@ export async function getDriverList(req: any, res: any, next: any) {
   try {
     // Feature search, filter
     const apiFeatures = new APIFeature(Driver.find(), req.query).search().filter()
-    let drivers: any[] = await apiFeatures.query
+    let drivers: IDriver[] = await apiFeatures.query
     // Get length result
     const filteredCount = drivers.length
     // Feature sorting, pagination
     apiFeatures.sorting().pagination()
     drivers = await apiFeatures.query.clone()
+    const driversList: IDriverList[] = []
+    for (const item of drivers) {
+      const teamExist: ITeam | null = await Team.findById(item.team)
+      if (teamExist) {
+        driversList.unshift({
+          _id: item._id.toString(),
+          name: item.name,
+          nationality: item.nationality,
+          points: item.points,
+          teamId: item.team,
+          teamName: teamExist.name,
+          year: item.year
+        })
+      }
+    }
+    console.log(driversList)
     // Return response
     res.status(200).json({
       filteredCount,
-      drivers
+      drivers: driversList
     })
   } catch (error: any) {
     // Return error
@@ -104,9 +121,9 @@ export async function getDriverDetail(req: any, res: any, next: any) {
     // Find driver inside race list
     for (const race of racesExist) {
       race.drivers.map((item: IDriverDetail, index: number) => {
-        if (item.id.toString() === req.params.id)
+        if (item._id.toString() === req.params.id)
           races.unshift({
-            id: item.id.toString(),
+            _id: item._id.toString(),
             position: index + 1,
             no: item.no,
             name: item.name,

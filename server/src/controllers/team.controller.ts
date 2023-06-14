@@ -111,7 +111,7 @@ export async function getTeamDetail(req: any, res: any, next: any) {
           // Check race exist
           if (raceExist.length === 0)
             races.unshift({
-              id: item.teamId.toString(),
+              _id: item.teamId.toString(),
               race: {
                 id: race._id,
                 nationality: race.nationality
@@ -122,7 +122,7 @@ export async function getTeamDetail(req: any, res: any, next: any) {
           else
             races.map((itemExist: ITeamDetail, index: number) => {
               // Total points
-              if (itemExist.id === req.params.id) itemExist.points += item.points
+              if (itemExist._id === req.params.id) itemExist.points += item.points
             })
         }
       })

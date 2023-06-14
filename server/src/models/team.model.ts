@@ -10,7 +10,7 @@ export interface ITeam extends mongoose.Document {
 }
 // Interface team detail type
 export interface ITeamDetail {
-  id: string
+  _id: string
   race: any
   date: string
   points: number
