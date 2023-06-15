@@ -93,7 +93,6 @@ export async function getDriverList(req: any, res: any, next: any) {
         })
       }
     }
-    console.log(driversList)
     // Return response
     res.status(200).json({
       filteredCount,
